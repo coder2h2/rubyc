@@ -1,4 +1,4 @@
-rubycom (0.1.0-1) unstable; urgency=medium
+rubyc (0.1.0-1) unstable; urgency=medium
 
   * Initial release of rubyc, an Ahead-Of-Time Ruby to x86-64 native compiler.
 

@@ -9,8 +9,8 @@ override_dh_auto_build:
 	cargo build --release --offline
 
 override_dh_auto_install:
-	install -D -m 0755 target/release/rubyc debian/rubycom/usr/bin/rubyc
-	install -D -m 0644 debian/rubyc.1 debian/rubycom/usr/share/man/man1/rubyc.1
+	install -D -m 0755 target/release/rubyc debian/rubyc/usr/bin/rubyc
+	install -D -m 0644 debian/rubyc.1 debian/rubyc/usr/share/man/man1/rubyc.1
 
 override_dh_installman:
 

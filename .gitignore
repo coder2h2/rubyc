@@ -1,4 +1,6 @@
 /target/
+/debian/rubyc/
+/debian/rubyc-dbgsym/
 /debian/rubycom/
 /debian/rubycom-dbgsym/
 /debian/.debhelper/
