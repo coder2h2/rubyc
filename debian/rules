@@ -15,7 +15,9 @@ override_dh_auto_install:
 override_dh_installman:
 
 override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	RUBYCOM=./target/release/rubyc bash tests/run_tests.sh
+endif
 
 override_dh_auto_clean:
 	rm -rf target debian/.cargo_home

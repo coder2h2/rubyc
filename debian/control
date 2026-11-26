@@ -5,8 +5,8 @@ Maintainer: Gideon Laurie <gideon.a.e.laurie@gmail.com>
 Homepage: https://github.com/coder2h2/rubyc
 Vcs-Git: https://github.com/coder2h2/rubyc.git
 Vcs-Browser: https://github.com/coder2h2/rubyc
-Build-Depends: debhelper-compat (= 13), cargo, rustc, gcc, binutils
-Standards-Version: 4.7.0
+Build-Depends: debhelper-compat (= 13), cargo, rustc, binutils
+Standards-Version: 4.7.4
 Rules-Requires-Root: no
 
 Package: rubycom
