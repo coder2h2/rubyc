@@ -1,0 +1,9 @@
+/target/
+/debian/rubycom/
+/debian/rubycom-dbgsym/
+/debian/.debhelper/
+/debian/.cargo_home/
+/debian/files
+/debian/*.substvars
+/debian/debhelper-build-stamp
+/hello

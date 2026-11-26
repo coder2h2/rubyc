@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+export CARGO_HOME=$(CURDIR)/debian/.cargo_home
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cargo build --release --offline
+
+override_dh_auto_install:
+	install -D -m 0755 target/release/rubyc debian/rubycom/usr/bin/rubyc
+	install -D -m 0644 debian/rubyc.1 debian/rubycom/usr/share/man/man1/rubyc.1
+
+override_dh_installman:
+
+override_dh_auto_test:
+	RUBYCOM=./target/release/rubyc bash tests/run_tests.sh
+
+override_dh_auto_clean:
+	rm -rf target debian/.cargo_home

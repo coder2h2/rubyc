@@ -1,0 +1,13 @@
+[package]
+name = "rubycom"
+version = "0.1.0"
+edition = "2021"
+authors = ["Gideon Laurie <gideon.a.e.laurie@gmail.com>"]
+repository = "https://github.com/coder2h2/rubyc"
+description = "A true Ahead-Of-Time Ruby compiler targeting x86-64 native executables"
+
+[[bin]]
+name = "rubyc"
+path = "src/main.rs"
+
+[dependencies]

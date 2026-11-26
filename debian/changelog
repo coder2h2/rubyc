@@ -1,0 +1,5 @@
+rubycom (0.1.0) unstable; urgency=medium
+
+  * Initial release of rubyc, an Ahead-Of-Time Ruby to x86-64 native compiler.
+
+ -- Gideon Laurie <gideon.a.e.laurie@gmail.com>  Thu, 26 Nov 2026 18:37:00 +1000

@@ -1,0 +1,19 @@
+Source: rubycom
+Section: devel
+Priority: optional
+Maintainer: Gideon Laurie <gideon.a.e.laurie@gmail.com>
+Homepage: https://github.com/coder2h2/rubyc
+Vcs-Git: https://github.com/coder2h2/rubyc.git
+Vcs-Browser: https://github.com/coder2h2/rubyc
+Build-Depends: debhelper-compat (= 13), cargo, rustc, gcc, binutils
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: rubycom
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, gcc, binutils
+Description: Ahead-Of-Time Ruby to x86-64 native compiler
+ rubycom (providing the `rubyc` command) is an Ahead-Of-Time Ruby compiler
+ written in Rust that compiles Ruby source code directly into x86-64 System V
+ ABI assembly and links it with an embedded C runtime to produce standalone
+ native ELF64 executables.

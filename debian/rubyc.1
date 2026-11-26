@@ -1,0 +1,26 @@
+.TH RUBYC 1 "November 2026" "rubycom 0.1.0" "User Commands"
+.SH NAME
+rubyc \- Ahead-Of-Time Ruby to x86-64 native compiler
+.SH SYNOPSIS
+.B rubyc
+.I input.rb
+[\fB\-o\fR \fIoutput\fR]
+[\fB\-\-emit\-asm\fR]
+[\fB\-\-run\fR]
+[\fB\-\-\fR \fIargs\fR...]
+.SH DESCRIPTION
+.B rubyc
+compiles Ruby source files directly into x86-64 System V ABI assembly and links
+them into standalone native ELF64 executables.
+.SH OPTIONS
+.TP
+.B \-o \fIoutput\fR
+Specify the output binary (or assembly file with \fB\-\-emit\-asm\fR).
+.TP
+.B \-\-emit\-asm, \-S
+Emit x86-64 assembly instead of linking an executable.
+.TP
+.B \-\-run, \-r
+Execute the compiled binary immediately after linking.
+.SH AUTHOR
+Gideon Laurie <gideon.a.e.laurie@gmail.com>
