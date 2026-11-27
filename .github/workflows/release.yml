@@ -68,5 +68,5 @@ jobs:
         with:
           tag_name: dev
           name: Dev Build
-          prerelease: true
+          prerelease: false
           files: dist/*.deb
