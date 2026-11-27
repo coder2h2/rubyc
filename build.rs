@@ -10,7 +10,15 @@ fn main() {
     let obj_path = out_dir.join("runtime.o");
     let lib_path = out_dir.join("librubycom_rt.a");
 
-    let status = Command::new("gcc")
+    let target = env::var("TARGET").unwrap_or_default();
+    let host = env::var("HOST").unwrap_or_default();
+    let (cc, ar) = if target != host && target.starts_with("aarch64") {
+        ("aarch64-linux-gnu-gcc", "aarch64-linux-gnu-ar")
+    } else {
+        ("gcc", "ar")
+    };
+
+    let status = Command::new(cc)
         .args([
             "-O2",
             "-fPIC",
@@ -26,7 +34,7 @@ fn main() {
         .expect("failed to invoke gcc to compile runtime.c");
     assert!(status.success(), "gcc failed compiling runtime/runtime.c");
 
-    let ar_status = Command::new("ar")
+    let ar_status = Command::new(ar)
         .args(["rcs"])
         .arg(&lib_path)
         .arg(&obj_path)

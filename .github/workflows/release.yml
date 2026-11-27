@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            os: ubuntu-24.04
+          - arch: arm64
+            os: ubuntu-24.04-arm
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper dpkg-dev gcc binutils ruby cargo rustc
+
+      - name: Create orig tarball
+        run: |
+          VERSION=$(dpkg-parsechangelog -S Version | cut -d- -f1)
+          tar --exclude='./debian' --exclude='./.git' --exclude='./target' \
+            -czf "../rubyc_${VERSION}.orig.tar.gz" .
+
+      - name: Build .deb package
+        run: |
+          dpkg-buildpackage -us -uc -b
+
+      - name: Collect .deb artifact
+        run: |
+          mkdir -p dist
+          cp ../rubyc_*.deb dist/
+          rm -f dist/*-dbgsym_*.deb
+          ls -lh dist/
+
+      - name: Upload .deb workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rubyc-${{ matrix.arch }}-deb
+          path: dist/*.deb
+
+      - name: Upload .deb to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.deb

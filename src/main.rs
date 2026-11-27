@@ -1,5 +1,6 @@
 mod ast;
 mod codegen;
+mod codegen_arm64;
 mod lexer;
 mod parser;
 
@@ -9,13 +10,20 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
 use codegen::Codegen;
+use codegen_arm64::CodegenArm64;
 use parser::parse_source;
 
 const RT_LIB_BYTES: &[u8] = include_bytes!(env!("RUBYCOM_RT_LIB"));
 
+#[derive(Clone, Copy, PartialEq)]
+enum TargetArch {
+    X86_64,
+    AArch64,
+}
+
 fn print_usage() {
-    eprintln!("rubyc - True Ahead-Of-Time Ruby to x86-64 Native Compiler");
-    eprintln!("Usage: rubyc <input.rb> [-o <output>] [--emit-asm] [--run] [-- <args>...]");
+    eprintln!("rubyc - True Ahead-Of-Time Ruby to Native Compiler (x86-64 & ARM64)");
+    eprintln!("Usage: rubyc <input.rb> [-o <output>] [--target x86_64|aarch64] [--emit-asm] [--run] [-- <args>...]");
 }
 
 fn main() -> ExitCode {
@@ -30,6 +38,11 @@ fn main() -> ExitCode {
     let mut emit_asm = false;
     let mut run_after = false;
     let mut prog_args: Vec<String> = Vec::new();
+    let mut target_arch = if cfg!(target_arch = "aarch64") {
+        TargetArch::AArch64
+    } else {
+        TargetArch::X86_64
+    };
 
     let mut i = 0;
     while i < args.len() {
@@ -45,6 +58,21 @@ fn main() -> ExitCode {
                     return ExitCode::from(1);
                 }
                 output_path = Some(args[i].clone());
+            }
+            "--target" => {
+                i += 1;
+                if i >= args.len() {
+                    eprintln!("error: --target requires an argument");
+                    return ExitCode::from(1);
+                }
+                match args[i].as_str() {
+                    "x86_64" | "amd64" => target_arch = TargetArch::X86_64,
+                    "aarch64" | "arm64" => target_arch = TargetArch::AArch64,
+                    other => {
+                        eprintln!("error: unsupported target '{}'", other);
+                        return ExitCode::from(1);
+                    }
+                }
             }
             "--emit-asm" | "-S" => {
                 emit_asm = true;
@@ -93,7 +121,10 @@ fn main() -> ExitCode {
         }
     };
 
-    let asm = Codegen::new().generate(&prog);
+    let asm = match target_arch {
+        TargetArch::X86_64 => Codegen::new().generate(&prog),
+        TargetArch::AArch64 => CodegenArm64::new().generate(&prog),
+    };
 
     let stem = Path::new(&input)
         .file_stem()

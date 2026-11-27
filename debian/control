@@ -10,9 +10,9 @@ Standards-Version: 4.7.4
 Rules-Requires-Root: no
 
 Package: rubyc
-Architecture: amd64
+Architecture: amd64 arm64
 Depends: ${shlibs:Depends}, ${misc:Depends}, gcc, binutils
-Description: Ahead-Of-Time Ruby to x86-64 native compiler
+Description: Ahead-Of-Time Ruby to native (x86-64 and ARM64) compiler
  rubyc is an Ahead-Of-Time Ruby compiler written in Rust that compiles Ruby
- source code directly into x86-64 System V ABI assembly and links it with an
+ source code directly into x86-64 or ARM64 assembly and links it with an
  embedded C runtime to produce standalone native ELF64 executables.
