@@ -1,5 +1,5 @@
 rubyc (0.1.0-1) unstable; urgency=medium
 
-  * Initial release of rubyc, an Ahead-Of-Time Ruby to x86-64 native compiler.
+  * Initial release of rubyc, an Ahead-Of-Time Ruby to native compiler (Closes: #1155531).
 
  -- Gideon Laurie <gideon.a.e.laurie@gmail.com>  Thu, 26 Nov 2026 18:37:00 +1000
