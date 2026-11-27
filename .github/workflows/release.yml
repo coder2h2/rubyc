@@ -56,8 +56,17 @@ jobs:
           name: rubyc-${{ matrix.arch }}-deb
           path: dist/*.deb
 
-      - name: Upload .deb to GitHub Release
+      - name: Upload .deb to GitHub Release (tag)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          files: dist/*.deb
+
+      - name: Upload .deb to GitHub Dev Release (main)
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: dev
+          name: Dev Build
+          prerelease: true
           files: dist/*.deb
